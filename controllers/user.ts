@@ -3,7 +3,7 @@ import { validationResult } from 'express-validator';
 import { User } from '../models/user';
 
 export const userController = {
-  getAllUsers: async (req: Request, res: Response, next: NextFunction) => {
+  getUsers: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const users = await User.find({}).lean();
       res.json(users);
@@ -19,9 +19,9 @@ export const userController = {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      const newUser = new User(req.body);
-      const savedUser = await newUser.save();
-      res.status(201).json(savedUser);
+      const user = new User(req.body);
+      const result = await user.save();
+      res.status(201).json(result);
     } catch (err) {
       next(err);
     }
